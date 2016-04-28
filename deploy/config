@@ -32,7 +32,7 @@ deploy_ud() {
   cd $MISC_HOME
   ./ud ud $UD_BIN $SUPER_CONF
   cd $POD_HOME
-  ./configure
+  ./configure $SUPER_CONF
 }
 
 deploy_ip() {

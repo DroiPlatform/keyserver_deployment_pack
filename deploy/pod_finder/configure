@@ -2,6 +2,7 @@
 PF_HOME=`pwd`
 PF_NAME=pod_finder
 PF_BIN=$PF_HOME/bin/$PF_NAME
+SUPER_CONF=$1
 NGX="<<@PODFINDER_NGX_PATH>>" #path to nginx executable,                                                                    ex: $accelerator_home/sbin/nginx
 NGX_PREFIX="<<@PODFINDER_NGX_PREFIX>>"  #prefix of nginx                                                                    ex: $accelerator_home
 NGX_CONF="<<@PODFINDER_NGX_CONF_PATH>>" #path from ngx prefix to nginx conf,                                                ex: conf/nginx.conf

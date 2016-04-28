@@ -1,0 +1,19 @@
+#!/bin/bash
+
+NAME=ud
+UD_PATH=$2
+SUPERCONF=$3
+
+super_mod() {
+  echo "[program:$NAME]" | sudo tee -a $SUPER_CONF
+  echo "command=$UD_PATH" | sudo tee -a $SUPER_CONF
+}
+
+case $1 in
+  "ud")
+    super_mod
+    ;;
+  *)
+    echo "Usage: $0 ud <path to ud> <path to supervisord config>"
+    ;;
+esac

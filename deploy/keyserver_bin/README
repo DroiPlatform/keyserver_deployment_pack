@@ -1,0 +1,11 @@
+Please follow the following instructions:
+0. install supervisord:
+    a. apt-get install python-setuptools
+    b. easy_install supervisor
+1. untar the tar ball and put it into right place.
+2. cd to the untared directory (keyserver_bin)
+3. run "./configure init" to generate key databse and id mapping
+    * Before "./configure init", please change DATA_ROOT in "./configure" to the path to the SSD
+4. run "./configure conf" to generate configurations
+5. run "./configure run" to launch supervisord
+    * before "./configure run", please make sure that supervisord is already installed, and replace /usr/local/lib/python2.7/dist-packages/supervisor-3.2.1-py2.7.egg/supervisor/process.py with keyserver_bin/util/process.py

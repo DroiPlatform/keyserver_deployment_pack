@@ -1,0 +1,65 @@
+#!/bin/bash
+
+KS_HOME=`pwd`
+PATH_PID=$KS_HOME/PID
+KS_BIN=$KS_HOME/bin/keyserver
+PATH_KWPID=$KS_HOME/KWPID
+
+binary_check(){
+  _cat=`which cat`
+  if [ ! -x $_cat ]; then 
+    echo "cat not exists! ($_cat)"
+    exit 1
+  fi
+
+  _wc=`which wc`
+  if [ ! -x $_wc ]; then
+    echo "wc not exists! ($_wc)"
+    exit 1
+  fi
+
+  _rm=`which rm`
+  if [ ! -x $_rm ]; then
+    echo "rm not exists! ($_rm)"
+    exit 1
+  fi
+
+  _awk=`which awk`
+  if [ ! -x $_awk ]; then
+    echo "awk not exists! ($_awk)"
+    exit 1
+  fi
+
+  _grep=`which grep`
+  if [ ! -x $_grep ]; then
+    echo "grep not exists! ($_grep)"
+    exit 1
+  fi
+}
+
+kswatcher() {
+  while :
+  do
+    KSPID=$($_cat $PATH_PID)
+    PN=`pwd`/bin/keyserver
+    PID=$(ps -ef | grep $PN | grep -v grep | head -n1 |  $_awk '{print $2;}')
+    if [ ! $KSPID -eq $PID ] ; then
+      echo "PID not the same! expected $KSPID, got $PID! Restarting Key Server!"
+      $KSBIN restart
+    #else
+    #  echo "same! $PID!"
+    fi
+    sleep 1
+  done
+}
+
+case $1 in 
+  "start")
+    binary_check
+    kswatcher
+    ;;
+  *)
+    echo "Usage: $0 [start]"
+    ;;
+esac
+exit 0

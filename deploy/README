@@ -1,0 +1,1 @@
+To deploy a field version of keyserver, please delete or comment the row "DB_SIZE=65536" in deploy/keyserver_bin/configure.

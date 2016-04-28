@@ -1,0 +1,96 @@
+#!/bin/bash
+KS_HOME=`pwd`
+PATH_CONF=$KS_HOME/conf/srv_list.conf
+KS_BIN=$KS_HOME/bin/ip_list
+LOG_HOME=$KS_HOME/logs
+PORT_OFFSET=6389
+PATH_PID=`pwd`/PID
+
+
+#******
+# starting binary checking
+#******
+binary_check(){
+  echo "Stage 1/2: Begin binary checking..."
+  _cat=`which cat`
+  if [ ! -x $_cat ]; then 
+    echo "cat not exists! ($_cat)"
+    exit 1
+  fi
+
+  _wc=`which wc`
+  if [ ! -x $_wc ]; then
+    echo "wc not exists! ($_wc)"
+    exit 1
+  fi
+
+  _rm=`which rm`
+  if [ ! -x $_rm ]; then
+    echo "rm not exists! ($_rm)"
+    exit 1
+  fi
+
+  _grep=`which grep`
+  if [ ! -x $_grep ]; then
+    echo "grep not exists! ($_grep)"
+    exit 1
+  fi
+  echo "Stage 1/2: Binary checking... done"
+  echo "------"
+}
+
+#******
+# preparing environments and launch keyserver
+#******
+ks_start(){
+  export GOTRACEBACK="crash prog"
+  echo "Stage 2/2: Begin server starting..."
+  KS_CORES=1
+
+  if [ -e $PATH_PID ]
+  then
+    PID=$(cat $PATH_PID)
+    echo "keyserver is up, PID: $PID"
+    exit 1
+  fi
+  for (( i = 0; i < $KS_CORES; i++ )); do
+    KS_LOG=${LOG_HOME}"/http.log"
+    $KS_BIN -list $PATH_CONF >> $KS_LOG 2>&1 &
+    pid 
+    echo "$(($i+1))/$KS_CORES servers up... ($PID)"
+  done
+  echo "Stage 2/2: Server starting... done"
+}
+
+pid(){
+  PN=`pwd`/bin/ip_list
+  PID=$(ps -ef | grep $PN | grep -v grep | head -n1 |  awk '{print $2;}')
+  echo $PID > $PATH_PID
+}
+
+ks_stop(){
+  PID=$(cat $PATH_PID)
+  kill -9 $PID
+  echo "ip_list ($PID) is stopped"
+  rm $PATH_PID
+}
+
+case $1 in
+  "start")
+    binary_check
+    ks_start
+    ;;
+  "stop")
+    ks_stop
+    ;;
+  "restart")
+    ks_stop
+    binary_check
+    ks_start
+    ;;
+  *)
+    echo "Please input..."
+    echo "\"$0 start\" for server launching;"
+    echo "\"$0 stop\" for server stopping..."
+    echo "\"$0 restart\" for server re-launching;"
+esac

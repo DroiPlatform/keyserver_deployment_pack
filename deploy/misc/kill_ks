@@ -1,0 +1,18 @@
+#!/bin/bash
+
+KS_PATH=$2
+
+kill_ks() {
+  PID=$(ps aux|grep $KS_PATH|grep -v kill_ks|grep -v "grep"|awk '{print $2}')
+  for i in $PID; do kill -9 $i; done
+}
+
+case $1 in
+  "keyserver")
+    kill_ks
+    ;;
+  *)
+    echo "Usage: $0 keyserver <path to keyserver binary>"
+    ;;
+esac
+

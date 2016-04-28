@@ -1,0 +1,69 @@
+#!/bin/bash
+DP_HOME=`pwd`
+KS_HOME=$DP_HOME/keyserver_bin
+IL_HOME=$DP_HOME/ip_list_bin
+AI_HOME=$DP_HOME/appid_bin
+POD_HOME=$DP_HOME/pod_finder
+SEED=$3
+SUPER_CONF=$2
+#MGO_ADDR=10.128.81.186:7379
+MGO_ADDR=$3
+RAN_ID=$4
+ACC_HOME=$5
+BROCKERS=$6
+
+MISC_HOME=$DP_HOME/misc
+UD_BIN=$3
+
+
+deploy_ks() {
+  cd $KS_HOME
+  ./configure init $SEED $RAN_ID
+  ./configure conf $SUPER_CONF $ACC_HOME $BROKERS
+}
+
+kill_ks() {
+  cd $MISC_HOME
+  sleep 30
+  ./kill_ks keyserver $KS_HOME/bin/keyserver
+}
+
+deploy_ud() {
+  cd $MISC_HOME
+  ./ud ud $UD_BIN $SUPER_CONF
+  cd $POD_HOME
+  ./configure
+}
+
+deploy_ip() {
+  cd $IL_HOME
+  ./configure $SUPER_CONF
+}
+
+deploy_app() {
+  cd $AI_HOME
+  ./configure $SUPER_CONF $MGO_ADDR
+}
+
+case $1 in
+  "keyserver")
+    deploy_ks
+    ;;
+  "ud")
+    deploy_ud
+    ;;
+  "kill_keyserver")
+    kill_ks
+    ;;
+  "ip_list")
+    deploy_ip
+    ;;
+  *)
+    echo "Usage: "
+    echo "$0 keyserver <path to supervisord config> <keygen seed> <random ID mapping: true|false> <path to accelerator directory (which contains conf/ and sbin/)> <list of kafka brokers, ex: 10.128.112.78:9092,10.128.112.79:9092>"
+    echo "$0 ud <path to supervisord config> <path to ud>"
+    echo "$0 kill_keyserver"
+    echo "$0 ip_list <path to supervisord config>"
+    ;;
+esac
+

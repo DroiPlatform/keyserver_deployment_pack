@@ -6,7 +6,7 @@ SUPER_CONF=$3
 
 super_mod() {
   echo "[program:$NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$UD_PATH" | sudo tee -a $SUPER_CONF
+  echo "command=$UD_PATH/ud" | sudo tee -a $SUPER_CONF
 }
 
 case $1 in

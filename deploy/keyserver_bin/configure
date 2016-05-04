@@ -1,6 +1,6 @@
 #!/bin/bash
 KS_HOME=`pwd`
-USR_NAME=ansible
+USR_NAME=droi
 #SUPER_CONF=/etc/supervisord.conf
 #DATA_ROOT=$KS_HOME
 DATA_ROOT=/ramfs
@@ -152,7 +152,7 @@ super_mod() {
   echo "stdout_logfile=$RED_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
   
   echo "[program:$MEM_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$MEM_PATH -p 22122" | sudo tee -a $SUPER_CONF
+  echo "command=$MEM_PATH -u $USR_NAME -p 22122" | sudo tee -a $SUPER_CONF
   echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
   echo "stdout_logfile=$MEM_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
   

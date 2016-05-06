@@ -4,6 +4,7 @@ PF_NAME=pod_finder
 PF_BIN=$PF_HOME/bin/$PF_NAME
 SUPER_CONF=$1
 HOST="<<@KEYSERVER_INT_IP>>"
+BROKERS="<<@KEYSERVER_KFK_BROKERS>>"
 NGX="<<@PODFINDER_NGX_PATH>>" #path to nginx executable,                                                                    ex: $accelerator_home/sbin/nginx
 NGX_PREFIX="<<@PODFINDER_NGX_PREFIX>>"  #prefix of nginx                                                                    ex: $accelerator_home
 NGX_CONF="<<@PODFINDER_NGX_CONF_PATH>>" #path from ngx prefix to nginx conf,                                                ex: conf/nginx.conf
@@ -18,7 +19,7 @@ POD="<<@PODFINDER_POD_NAME>>"  #corresponding k8s pod name, order should be the 
 #******
 super_mod() {
   echo "[program:$PF_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$PF_BIN -ngx $NGX -p $NGX_PREFIX -c $NGX_CONF -port $PORT -report $REPORT -restful $ETCD -service $SVC -pod $POD -host $HOST" | sudo tee -a $SUPER_CONF
+  echo "command=$PF_BIN -ngx $NGX -p $NGX_PREFIX -c $NGX_CONF -port $PORT -report $REPORT -restful $ETCD -service $SVC -pod $POD -host $HOST -brokers $BROKERS" | sudo tee -a $SUPER_CONF
   echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
   echo "stdout_logfile=$PF_HOME/stdout.log" | sudo tee -a $SUPER_CONF
 }

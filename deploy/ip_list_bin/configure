@@ -8,6 +8,7 @@ SL_PATH=$IL_HOME/conf/srv_list.conf
 EL_PATH=$IL_HOME/logs/error.log
 CH_PATH=$IL_HOME/data/ip_list
 HOST="<<@KEYSERVER_INT_IP>>"
+BROKERS="<<@KEYSERVER_KFK_BROKERS>>"
 
 #******
 # starting binary checking
@@ -62,7 +63,7 @@ super_mod() {
   #echo_supervisord_conf > $SUPER_CONF
 
   echo "[program:$IL_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$IL_PATH -cache=$CH_PATH -list=$SL_PATH -logfile=$EL_PATH -host=$HOST" | sudo tee -a $SUPER_CONF
+  echo "command=$IL_PATH -cache=$CH_PATH -list=$SL_PATH -logfile=$EL_PATH -host=$HOST -brokers=$BROKERS" | sudo tee -a $SUPER_CONF
   echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
   echo "stdout_logfile=$IL_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
 }

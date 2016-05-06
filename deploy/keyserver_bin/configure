@@ -163,7 +163,7 @@ super_mod() {
 
   UPDATE_PORT=$(( $AGENT_PORT + 1))
   echo "[program:updater]" | sudo tee -a $SUPER_CONF
-  echo "command=$UPDATER -port=$UPDATE_PORT -ks_version=$KS_VERSION -nginx=$UPDATER_NGX -target=$UPDATER_TARGET" | sudo tee -a $SUPER_CONF
+  echo "command=$UPDATER -port=$UPDATE_PORT -ks_version=$KS_VERSION -nginx=$UPDATER_NGX -target=$UPDATER_TARGET -host=$INTERNAL_IP -brokers=$BROKERS" | sudo tee -a $SUPER_CONF
   echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
   echo "stdout_logfile=$LOG_HOME/updater.log" | sudo tee -a $SUPER_CONF
 

@@ -250,7 +250,7 @@ idmap(){
   do
     ID_LOG="$ID_LOG_PREFIX$i$LOG_SUFFIX"
     #echo "$MAP_BIN $PATH_CONF $i > $ID_LOG"
-    $MAP_BIN -dir=$MAP_HOME -size=$DB_SIZE -part=$PARTITION -this=$i -version=$KL_VERSION -random=$RAN_ID > $ID_LOG 2>&1
+    $MAP_BIN -dir=$MAP_HOME -size=$DB_SIZE -part=$PARTITION -this=$i -version=$KL_VERSION -random=$RAN_ID -seed=$SEED > $ID_LOG 2>&1
     #echo "$MAP_BIN -dir=$MAP_HOME -size=$DB_SIZE -part=$PARTITION -this=$i -version=$KL_VERSION -random=$RAN_ID"
     echo "$i/$PARTITION finished"
   done

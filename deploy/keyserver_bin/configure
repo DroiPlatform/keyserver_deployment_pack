@@ -80,14 +80,19 @@ DB_PATH=$MGO_HOME/data/db
 MGO_NAME=mongod
 MEM_NAME=memcached
 RED_NAME=redis-server
+MCUS_NAME=mcus
 
 MGO_BIN=bin/mongod
 MEM_BIN=bin/memcached
+MCUS_BIN=bin/mcus
 RED_BIN=src/redis-server
 
 MGO_PATH=$MGO_HOME/$MGO_BIN
 MEM_PATH=$MEM_HOME/$MEM_BIN
+MCUS_PATH=$MEM_HOME/$MCUS_BIN
 RED_PATH=$RED_HOME/$RED_BIN
+
+MC_UNIX_SOCKET=$DATA_ROOT/data/socket.mc
 
 #******
 # starting binary checking
@@ -141,20 +146,25 @@ super_run() {
 super_mod() {
   #echo_supervisord_conf | sudo tee -a $SUPER_CONF
 
-  echo "[program:$MGO_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$MGO_PATH --dbpath $DB_PATH" | sudo tee -a $SUPER_CONF
-  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
-  echo "stdout_logfile=$MGO_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
+#  echo "[program:$MGO_NAME]" | sudo tee -a $SUPER_CONF
+#  echo "command=$MGO_PATH --dbpath $DB_PATH" | sudo tee -a $SUPER_CONF
+#  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
+#  echo "stdout_logfile=$MGO_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
 
-  echo "[program:$RED_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$RED_PATH $RED_HOME/redis.conf --port 9999" | sudo tee -a $SUPER_CONF
-  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
-  echo "stdout_logfile=$RED_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
+#  echo "[program:$RED_NAME]" | sudo tee -a $SUPER_CONF
+#  echo "command=$RED_PATH $RED_HOME/redis.conf --port 9999" | sudo tee -a $SUPER_CONF
+#  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
+#  echo "stdout_logfile=$RED_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
   
   echo "[program:$MEM_NAME]" | sudo tee -a $SUPER_CONF
   echo "command=$MEM_PATH -u $USR_NAME -p 22122" | sudo tee -a $SUPER_CONF
   echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
   echo "stdout_logfile=$MEM_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
+  
+  echo "[program:$MCUS_NAME]" | sudo tee -a $SUPER_CONF
+  echo "command=$MCUS_PATH -u $USR_NAME -s $MC_UNIX_SOCKET -a 0755" | sudo tee -a $SUPER_CONF
+  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
+  echo "stdout_logfile=$MEM_HOME/logs/mcus-stdout.log" | sudo tee -a $SUPER_CONF
   
   echo "[program:keyserver]" | sudo tee -a $SUPER_CONF
   echo "command=$KS_BIN -conf $PATH_CONF -id_exp $ID_EXP -aes_exp $AES_EXP -brokers $BROKERS -ratio $RATIO -report $REPORT" | sudo tee -a $SUPER_CONF

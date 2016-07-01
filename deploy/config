@@ -49,20 +49,20 @@ case $1 in
   "keyserver")
     deploy_ks
     ;;
-  "ud")
-    deploy_ud
-    ;;
-  "kill_keyserver")
-    kill_ks
-    ;;
+#  "ud")
+#    deploy_ud
+#    ;;
+#  "kill_keyserver")
+#    kill_ks
+#    ;;
   "ip_list")
     deploy_ip
     ;;
   *)
     echo "Usage: "
     echo "$0 keyserver <path to supervisord config> <keygen seed> <random ID mapping: true|false> <path to accelerator directory (which contains conf/ and sbin/)> <list of kafka brokers, ex: 10.128.112.78:9092,10.128.112.79:9092>"
-    echo "$0 ud <path to supervisord config> <path to ud>"
-    echo "$0 kill_keyserver"
+#    echo "$0 ud <path to supervisord config> <path to ud>"
+#    echo "$0 kill_keyserver"
     echo "$0 ip_list <path to supervisord config>"
     ;;
 esac

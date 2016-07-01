@@ -81,16 +81,21 @@ MGO_NAME=mongod
 MEM_NAME=memcached
 RED_NAME=redis-server
 MCUS_NAME=mcus
+MCMAL_NAME=mcmal
 
 MGO_BIN=bin/mongod
 MEM_BIN=bin/memcached
 MCUS_BIN=bin/mcus
+MCMAL_BIN=bin/mcmal
 RED_BIN=src/redis-server
 
 MGO_PATH=$MGO_HOME/$MGO_BIN
 MEM_PATH=$MEM_HOME/$MEM_BIN
 MCUS_PATH=$MEM_HOME/$MCUS_BIN
+MCMAL_PATH=$MEM_HOME/$MCMAL_BIN
 RED_PATH=$RED_HOME/$RED_BIN
+
+MC_PORT=22122
 
 MC_UNIX_SOCKET=$DATA_ROOT/data/socket.mc
 
@@ -156,17 +161,24 @@ super_mod() {
 #  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
 #  echo "stdout_logfile=$RED_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
   
+  mkdir -p $MEM_HOME/logs
   echo "[program:$MEM_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$MEM_PATH -u $USR_NAME -p 22122" | sudo tee -a $SUPER_CONF
+  echo "command=$MEM_PATH -u $USR_NAME -p $MC_PORT" | sudo tee -a $SUPER_CONF
   echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
   echo "stdout_logfile=$MEM_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
   
-  echo "[program:$MCUS_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$MCUS_PATH -u $USR_NAME -s $MC_UNIX_SOCKET -a 0755" | sudo tee -a $SUPER_CONF
+  MCMAL_PORT=$((MC_PORT + 1))
+  echo "[program:$MCMAL_NAME]" | sudo tee -a $SUPER_CONF
+  echo "command=$MCMAL_PATH -u $USR_NAME -p $MCMAL_PORT" | sudo tee -a $SUPER_CONF
   echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
-  echo "stdout_logfile=$MEM_HOME/logs/mcus-stdout.log" | sudo tee -a $SUPER_CONF
+  echo "stdout_logfile=$MEM_HOME/logs/mcmal-stdout.log" | sudo tee -a $SUPER_CONF
+  
+#  echo "[program:$MCUS_NAME]" | sudo tee -a $SUPER_CONF
+#  echo "command=$MCUS_PATH -u $USR_NAME -s $MC_UNIX_SOCKET -a 0755" | sudo tee -a $SUPER_CONF
+#  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
+#  echo "stdout_logfile=$MEM_HOME/logs/mcus-stdout.log" | sudo tee -a $SUPER_CONF
 
-  mkdir -p $MEM_HOME/logs
+  mkdir -p $KS_HOME/logs
   
   echo "[program:keyserver]" | sudo tee -a $SUPER_CONF
   echo "command=$KS_BIN -conf $PATH_CONF -id_exp $ID_EXP -aes_exp $AES_EXP -brokers $BROKERS -ratio $RATIO -report $REPORT" | sudo tee -a $SUPER_CONF
@@ -221,7 +233,7 @@ config_gen(){
     "AGENT_PORT = $AGENT_PORT"\
     "KS_VERSION = $KS_VERSION"\
     "WINDOW = 10"\
-    "MC_PORT = 22122"\
+    "MC_PORT = $MC_PORT"\
     "MC_US = $MC_UNIX_SOCKET"
     "REDIS = 127.0.0.1:9999"\
     "REDIS_POOL = 20"\

@@ -178,7 +178,6 @@ super_mod() {
 #  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
 #  echo "stdout_logfile=$MEM_HOME/logs/mcus-stdout.log" | sudo tee -a $SUPER_CONF
 
-  mkdir -p $KS_HOME/logs
   
   echo "[program:keyserver]" | sudo tee -a $SUPER_CONF
   echo "command=$KS_BIN -conf $PATH_CONF -id_exp $ID_EXP -aes_exp $AES_EXP -brokers $BROKERS -ratio $RATIO -report $REPORT" | sudo tee -a $SUPER_CONF
@@ -203,6 +202,7 @@ config_gen(){
   mkdir -p $DATA_ROOT/data/maldb/id
   mkdir -p $DATA_ROOT/data/maldb/dup
   mkdir -p $LOG_HOME
+  mkdir -p $KS_HOME/logs
   #INTERNAL_IP=$($FINDER_BIN -internal|$_awk '{print $2;}')
   TOTAL_CORES=$($_cat $CPUINFO|$_grep processor|$_wc -l)
   MAXGO=$(($TOTAL_CORES*4))

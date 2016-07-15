@@ -84,7 +84,7 @@ case $1 in
     echo "$0 keyserver <path to supervisord config> <keygen seed> <random ID mapping: true|false> <path to accelerator directory (which contains conf/ and sbin/)>"
 #    echo "$0 ud <path to supervisord config> <path to ud>"
 #    echo "$0 kill_keyserver"
-    echo "$0 dn_updater"
+    echo "$0 dn_updater <host ip> <broker list seperated by comma> <etcd ip:port>"
     echo "$0 ip_list <path to supervisord config>"
     ;;
 esac

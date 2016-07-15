@@ -46,7 +46,7 @@ deploy_app() {
   ./configure $SUPER_CONF $MGO_ADDR
 }
 
-depoy_dn_updater() {
+deploy_dn_updater() {
   cd $DN_HOME
   ./configure $HOST $BROKERS $ETCD
 }

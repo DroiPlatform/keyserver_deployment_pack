@@ -4,6 +4,7 @@ KS_HOME=$DP_HOME/keyserver_bin
 IL_HOME=$DP_HOME/ip_list_bin
 AI_HOME=$DP_HOME/appid_bin
 POD_HOME=$DP_HOME/pod_finder
+DN_HOME=$DP_HOME/dn_updater
 SEED=$3
 SUPER_CONF=$2
 #MGO_ADDR=10.128.81.186:7379
@@ -45,8 +46,16 @@ deploy_app() {
   ./configure $SUPER_CONF $MGO_ADDR
 }
 
+depoy_dn_updater() {
+  cd $DN_HOME
+  ./configure $HOST $BROKERS $ETCD
+}
+
 case $1 in
   "keyserver")
+    if [ "$#" -ne 5 ]; then
+      echo "Illegal number of parameters, expected 5, got $#"
+    fi
     deploy_ks
     ;;
 #  "ud")
@@ -56,13 +65,26 @@ case $1 in
 #    kill_ks
 #    ;;
   "ip_list")
+    if [ "$#" -ne 2 ]; then
+      echo "Illegal number of parameters, expected 2, got $#"
+    fi
     deploy_ip
+    ;;
+  "dn_updater")
+    if [ "$#" -ne 4 ]; then
+      echo "Illegal number of parameters, expected 4, got $#"
+    fi
+    HOST=$2
+    BROKERS=$3
+    ETCD=$4
+    deploy_dn_updater 
     ;;
   *)
     echo "Usage: "
-    echo "$0 keyserver <path to supervisord config> <keygen seed> <random ID mapping: true|false> <path to accelerator directory (which contains conf/ and sbin/)> <list of kafka brokers, ex: 10.128.112.78:9092,10.128.112.79:9092>"
+    echo "$0 keyserver <path to supervisord config> <keygen seed> <random ID mapping: true|false> <path to accelerator directory (which contains conf/ and sbin/)>"
 #    echo "$0 ud <path to supervisord config> <path to ud>"
 #    echo "$0 kill_keyserver"
+    echo "$0 dn_updater"
     echo "$0 ip_list <path to supervisord config>"
     ;;
 esac

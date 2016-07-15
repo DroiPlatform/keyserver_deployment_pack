@@ -2,10 +2,12 @@
 
 IL_HOME=ip_list_bin
 KS_HOME=keyserver_bin
+DN_HOME=dn_updater
 
 update () {
+  mkdir -p $TGT/$DN_HOME
   cp $KS_HOME/bin/keyserver $TGT/$KS_HOME/bin/keyserver
-  cp dn_updater $TGT/dn_updater
+  cp $DN_HOME/dn_updater $TGT/$DN_HOME/dn_updater
   cp -r keyserver_bin/util $TGT/$KS_HOME/util
   cp $IL_HOME/bin/ip_list $TGT/$IL_HOME/bin/ip_list
 }

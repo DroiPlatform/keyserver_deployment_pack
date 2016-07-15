@@ -48,7 +48,7 @@ deploy_app() {
 
 deploy_dn_updater() {
   cd $DN_HOME
-  ./configure $HOST $BROKERS $ETCD
+  ./configure updater $HOST $BROKERS $ETCD
 }
 
 case $1 in

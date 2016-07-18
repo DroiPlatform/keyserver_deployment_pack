@@ -66,8 +66,6 @@ super_mod() {
   mkdir -p $IL_HOME/logs
   echo "[program:$IL_NAME]" | sudo tee -a $SUPER_CONF
   echo "command=$IL_PATH -cache=$CH_PATH -list=$SL_PATH -logfile=$EL_PATH -host=$HOST -brokers=$BROKERS -backend $BACKEND" | sudo tee -a $SUPER_CONF
-  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
-  echo "stdout_logfile=$IL_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
 }
 
 SUPER_CONF=$1

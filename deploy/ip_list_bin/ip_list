@@ -1,10 +1,17 @@
 #!/bin/bash
-KS_HOME=`pwd`
-PATH_CONF=$KS_HOME/conf/srv_list.conf
-KS_BIN=$KS_HOME/bin/ip_list
-LOG_HOME=$KS_HOME/logs
-PORT_OFFSET=6389
+IL_HOME=`pwd`
 PATH_PID=`pwd`/PID
+IL_BIN=$IL_HOME/bin/ip_list
+LIST=$IL_HOME/conf/srv_list.conf
+CACHE=$IL_HOME/data/ip_list.dat
+LOGFILE=$IL_HOME/logs/error.log
+LOG_HOME=$IL_HOME/logs
+# default values
+BROKERS="10.129.112.186:9092"
+BACKEND=http://10.128.112.27:30111/v1/appid
+# custom values
+BROKERS="10.128.112.186:9092"
+BACKEND="http://10.128.112.27:30111/v1/appid"
 
 
 #******
@@ -42,7 +49,7 @@ binary_check(){
 #******
 # preparing environments and launch keyserver
 #******
-ks_start(){
+il_start(){
   export GOTRACEBACK="crash prog"
   echo "Stage 2/2: Begin server starting..."
   KS_CORES=1
@@ -55,7 +62,7 @@ ks_start(){
   fi
   for (( i = 0; i < $KS_CORES; i++ )); do
     KS_LOG=${LOG_HOME}"/http.log"
-    $KS_BIN -list $PATH_CONF >> $KS_LOG 2>&1 &
+    $IL_BIN -list $LIST -cache $CACHE -backend $BACKEND$LOC -brokers $BROKERS >> $KS_LOG 2>&1 &
     pid 
     echo "$(($i+1))/$KS_CORES servers up... ($PID)"
   done
@@ -68,7 +75,7 @@ pid(){
   echo $PID > $PATH_PID
 }
 
-ks_stop(){
+il_stop(){
   PID=$(cat $PATH_PID)
   kill -9 $PID
   echo "ip_list ($PID) is stopped"
@@ -78,15 +85,15 @@ ks_stop(){
 case $1 in
   "start")
     binary_check
-    ks_start
+    il_start
     ;;
   "stop")
-    ks_stop
+    il_stop
     ;;
   "restart")
-    ks_stop
+    il_stop
     binary_check
-    ks_start
+    il_start
     ;;
   *)
     echo "Please input..."

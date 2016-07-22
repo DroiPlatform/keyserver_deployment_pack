@@ -1,7 +1,7 @@
 #!/bin/bash
 KS_HOME=`pwd`
 USR_NAME=droi
-#SUPER_CONF=/etc/supervisord.conf
+#WATCHLIST=/etc/supervisord.conf
 #DATA_ROOT=$KS_HOME
 DATA_ROOT=/ramfs
 DATA_ROOT="<<@KEYSERVER_SSD_PATH>>"
@@ -56,7 +56,7 @@ RATIO=70
 REPORT=6
 
 # for ./config conf
-SUPER_CONF=$2
+WATCHLIST=$2
 BROKERS="<<@KEYSERVER_KFK_BROKERS>>"
 
 #for ./config init
@@ -142,45 +142,23 @@ binary_check(){
 # run supervisord
 #******
 super_run() {
-  supervisord -c $SUPER_CONF
+  supervisord -c $WATCHLIST
 }
 
 #******
 # modifying supervisord conf
 #******
 super_mod() {
-  #echo_supervisord_conf | sudo tee -a $SUPER_CONF
-
-#  echo "[program:$MGO_NAME]" | sudo tee -a $SUPER_CONF
-#  echo "command=$MGO_PATH --dbpath $DB_PATH" | sudo tee -a $SUPER_CONF
-#  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
-#  echo "stdout_logfile=$MGO_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
-
-#  echo "[program:$RED_NAME]" | sudo tee -a $SUPER_CONF
-#  echo "command=$RED_PATH $RED_HOME/redis.conf --port 9999" | sudo tee -a $SUPER_CONF
-#  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
-#  echo "stdout_logfile=$RED_HOME/logs/stdout.log" | sudo tee -a $SUPER_CONF
-  
   mkdir -p $MEM_HOME/logs
-  echo "[program:$MEM_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$MEM_PATH -u $USR_NAME -p $MC_PORT" | sudo tee -a $SUPER_CONF
+  echo "$MEM_PATH -u $USR_NAME -p $MC_PORT" | sudo tee -a $WATCHLIST
   
   MCMAL_PORT=$((MC_PORT + 1))
-  echo "[program:$MCMAL_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$MCMAL_PATH -u $USR_NAME -p $MCMAL_PORT" | sudo tee -a $SUPER_CONF
+  echo "$MCMAL_PATH -u $USR_NAME -p $MCMAL_PORT" | sudo tee -a $WATCHLIST
   
-#  echo "[program:$MCUS_NAME]" | sudo tee -a $SUPER_CONF
-#  echo "command=$MCUS_PATH -u $USR_NAME -s $MC_UNIX_SOCKET -a 0755" | sudo tee -a $SUPER_CONF
-#  echo "redirect_stderr=true" | sudo tee -a $SUPER_CONF
-#  echo "stdout_logfile=$MEM_HOME/logs/mcus-stdout.log" | sudo tee -a $SUPER_CONF
-
-  
-  echo "[program:keyserver]" | sudo tee -a $SUPER_CONF
-  echo "command=$KS_BIN -conf $PATH_CONF -id_exp $ID_EXP -aes_exp $AES_EXP -brokers $BROKERS -ratio $RATIO -report $REPORT -log $LOG_HOME/keyserver.log" | sudo tee -a $SUPER_CONF
+  echo "$KS_BIN -conf $PATH_CONF -id_exp $ID_EXP -aes_exp $AES_EXP -brokers $BROKERS -ratio $RATIO -report $REPORT -log $LOG_HOME/keyserver.log" | sudo tee -a $WATCHLIST
 
   UPDATE_PORT=$(( $AGENT_PORT + 1))
-  echo "[program:updater]" | sudo tee -a $SUPER_CONF
-  echo "command=$UPDATER -port=$UPDATE_PORT -ks_version=$KS_VERSION -nginx=$UPDATER_NGX -target=$UPDATER_TARGET -host=$INTERNAL_IP -brokers=$BROKERS -log $LOG_HOME/updater.log" | sudo tee -a $SUPER_CONF
+  echo "$UPDATER -port=$UPDATE_PORT -ks_version=$KS_VERSION -nginx=$UPDATER_NGX -target=$UPDATER_TARGET -host=$INTERNAL_IP -brokers=$BROKERS -log $LOG_HOME/updater.log" | sudo tee -a $WATCHLIST
 
 }
 

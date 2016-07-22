@@ -38,7 +38,7 @@ deploy_ud() {
 
 deploy_ip() {
   cd $IL_HOME
-  ./configure $SUPER_CONF
+  ./configure $SUPER_CONF $BROKERS $BACKEND
 }
 
 deploy_app() {
@@ -49,6 +49,13 @@ deploy_app() {
 deploy_dn_updater() {
   cd $DN_HOME
   ./configure updater $HOST $BROKERS $ETCD
+}
+
+echo_usage () {
+  echo "Usage: "
+  echo "$0 keyserver <path to supervisord config> <keygen seed> <random ID mapping: true|false> <path to accelerator directory (which contains conf/ and sbin/)>"
+  echo "$0 dn_updater <host ip> <broker list seperated by comma> <etcd ip:port>"
+  echo "$0 ip_list <path to supervisord config> <broker list> <zone code backend>"
 }
 
 case $1 in
@@ -65,27 +72,29 @@ case $1 in
 #    kill_ks
 #    ;;
   "ip_list")
-    if [ "$#" -ne 2 ]; then
-      echo "Illegal number of parameters, expected 2, got $#"
+    if [ "$#" -ne 4 ]; then
+      echo "Illegal number of parameters, expected 4, got $#"
+      echo_usage
+    else
+      SUPER_CONF=$2
+      BROKERS=$3
+      BACKEND=$4
+      deploy_ip
     fi
-    deploy_ip
     ;;
   "dn_updater")
     if [ "$#" -ne 4 ]; then
       echo "Illegal number of parameters, expected 4, got $#"
+      echo_usage
+    else
+      HOST=$2
+      BROKERS=$3
+      ETCD=$4
+      deploy_dn_updater 
     fi
-    HOST=$2
-    BROKERS=$3
-    ETCD=$4
-    deploy_dn_updater 
     ;;
   *)
-    echo "Usage: "
-    echo "$0 keyserver <path to supervisord config> <keygen seed> <random ID mapping: true|false> <path to accelerator directory (which contains conf/ and sbin/)>"
-#    echo "$0 ud <path to supervisord config> <path to ud>"
-#    echo "$0 kill_keyserver"
-    echo "$0 dn_updater <host ip> <broker list seperated by comma> <etcd ip:port>"
-    echo "$0 ip_list <path to supervisord config>"
+    echo_usage
     ;;
 esac
 

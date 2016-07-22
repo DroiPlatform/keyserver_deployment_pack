@@ -1,15 +1,14 @@
 #!/bin/bash
 
-SUPER_CONF=/etc/supervisord.conf
+WATCHLIST=/etc/supervisord.conf
 IL_HOME=`pwd`
 IL_NAME=ip_list
 IL_PATH=$IL_HOME/bin/$IL_NAME
 SL_PATH=$IL_HOME/conf/srv_list.conf
 EL_PATH=$IL_HOME/logs/error.log
 CH_PATH=$IL_HOME/data/ip_list
-HOST="<<@KEYSERVER_INT_IP>>"
-BROKERS="<<@KEYSERVER_KFK_BROKERS>>"
-BACKEND="http://10.10.20.60:30111/v1/appid"
+CTL_SCRIPT=$IL_HOME/ip_list
+SUICIDE=$IL_HOME/ip_list_restarter
 
 #******
 # starting binary checking
@@ -54,21 +53,49 @@ binary_check(){
 # show configuration
 #******
 show_conf() {
-  echo $SUPER_CONF
+  echo $WATCHLIST
 }
 
 #******
 # modifying supervisord conf
 #******
 super_mod() {
-  #echo_supervisord_conf > $SUPER_CONF
+  #echo_supervisord_conf > $WATCHLIST
 
   mkdir -p $IL_HOME/logs
-  echo "[program:$IL_NAME]" | sudo tee -a $SUPER_CONF
-  echo "command=$IL_PATH -cache=$CH_PATH -list=$SL_PATH -logfile=$EL_PATH -host=$HOST -brokers=$BROKERS -backend $BACKEND" | sudo tee -a $SUPER_CONF
+  echo "$IL_PATH -cache $CH_PATH -list $SL_PATH -logfile $EL_PATH -brokers $BROKERS -backend $BACKEND" | sudo tee -a $WATCHLIST
 }
 
-SUPER_CONF=$1
-binary_check
-#show_conf
-super_mod
+update_ctl () {
+  $_sed -i -e "s/BROKERS=\"<<BROKERS>>\"/BROKERS=\"$BROKERS\"/g" $CTL_SCRIPT
+  $_sed -i -e "s@BACKEND=\"<<BACKEND>>\"@BACKEND=\"$BACKEND\"@g" $CTL_SCRIPT
+}
+
+gen_suicide () {
+  echo "#/bin/bash" > $SUICIDE
+  echo "cd $IL_HOME" >> $SUICIDE
+  echo "$CTL_SCRIPT restart" >> $SUICIDE
+  chmod +x $SUICIDE
+}
+
+echo_usage () {
+  echo "Usage: $0 <path to agentdog watch list> <broker list> <zone code backend>"
+}
+
+start_config () {
+  binary_check
+  #super_mod
+  update_ctl
+  gen_suicide
+}
+
+if [[ "$#" -ne 3 ]]; then
+  echo "Illegal number of parameters, expected 3, got $#"
+  echo_usage
+else
+  WATCHLIST=$1
+  BROKERS=$2
+  BACKEND=$3
+  start_config
+fi
+

@@ -84,7 +84,7 @@ echo_usage () {
 
 start_config () {
   binary_check
-  #super_mod
+  super_mod
   update_ctl
   gen_suicide
 }

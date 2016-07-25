@@ -7,7 +7,8 @@ DB_SIZE=4294967296
 PARTITION=32
 UTL_DEBUG=false
 DEBUG=true
-KL_VERSION=1
+KL_VERSION=19
+KS_VERSION=117
 CPUINFO=/proc/cpuinfo
 KS_BIN=$KS_HOME/bin/keyserver
 KG_BIN=$UTL_HOME/keygen/bin/main
@@ -24,6 +25,13 @@ PORT_OFFSET=7000
 PORT_OFFSET=16389
 PATH_PID=`pwd`/PID
 
+# keyserver malicious expire time
+ID_EXP=10 #second
+AES_EXP=72 #hour
+
+BROKERS="<<BROKERS>>"
+RATIO=80
+REPORT=10
 
 TPATH_CONF=$KS_HOME/conf/test.conf
 TPORT_OFFSET=7000
@@ -93,20 +101,18 @@ ks_start(){
 
   if [ -e $PATH_PID ]
   then
+    pid
     PID=$(cat $PATH_PID)
-    echo "keyserver is up, PID: $PID"
-    exit 1
+    if [[ -z "$PID" ]]; then
+      rm $PATH_PID
+    else
+      echo "keyserver is up, PID: $PID"
+      exit 1
+    fi
   fi
-  for (( i = 0; i < $KS_CORES; i++ )); do
-#    LOG=$(( $PORT_OFFSET + $i ))
-#    KS_LOG=$KS_LOG_PREFIX$LOG$LOG_SUFFIX
-    KS_LOG=$KS_LOG_PREFIX$LOG_SUFFIX
-#    $KS_BIN $HOST $LOG $PATH_CONF >> $KS_LOG 2>&1 &
-    $KS_BIN -conf $PATH_CONF >> $KS_LOG 2>&1 &
-    #valgrind --leak-check=yes $KS_BIN $PATH_CONF >> $KS_LOG 2>&1 &
-    pid 
-    echo "$(($i+1))/$KS_CORES servers up... ($PID)"
-  done
+  $KS_BIN -conf $PATH_CONF -id_exp $ID_EXP -aes_exp $AES_EXP -brokers $BROKERS -ratio $RATIO -report $REPORT -log $LOG_HOME/keyserver.log &
+  pid 
+  echo "keyserver up... ($PID)"
   echo "Stage 2/2: Server starting... done"
 }
 

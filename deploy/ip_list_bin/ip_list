@@ -8,7 +8,8 @@ LOGFILE=$IL_HOME/logs/error.log
 LOG_HOME=$IL_HOME/logs
 # default values
 BROKERS="10.129.112.186:9092"
-BACKEND=http://10.128.112.27:30111/v1/appid
+BACKEND="10.128.112.27:30111"
+LOC="/v1/appid"
 # custom values
 BROKERS="<<BROKERS>>"
 BACKEND="<<BACKEND>>"
@@ -56,16 +57,18 @@ il_start(){
 
   if [ -e $PATH_PID ]
   then
+    pid
     PID=$(cat $PATH_PID)
-    echo "keyserver is up, PID: $PID"
-    exit 1
+    if [[ -z "$PID" ]]; then
+      rm $PATH_PID
+    else
+      echo "ip_list is up, PID: $PID"
+      exit 1
+    fi
   fi
-  for (( i = 0; i < $KS_CORES; i++ )); do
-    KS_LOG=${LOG_HOME}"/http.log"
-    $IL_BIN -list $LIST -cache $CACHE -backend $BACKEND$LOC -brokers $BROKERS >> $KS_LOG 2>&1 &
-    pid 
-    echo "$(($i+1))/$KS_CORES servers up... ($PID)"
-  done
+  $IL_BIN -list $LIST -cache $CACHE -backend "http://$BACKEND$LOC" -brokers $BROKERS -logfile $LOGFILE &
+  pid 
+  echo "ip_list up... ($PID)"
   echo "Stage 2/2: Server starting... done"
 }
 

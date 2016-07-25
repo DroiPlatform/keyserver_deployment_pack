@@ -46,6 +46,8 @@ KF_HOME=$DATA_ROOT/data/keydb/aes
 MAP_HOME=$DATA_ROOT/data/idmap
 DB_TYPE=1 #0: mongo, 1: redis
 
+CTL_SCRIPT=$KS_HOME/keyserver
+
 # keyserver malicious expire time
 ID_EXP=10 #second
 AES_EXP=72 #hour
@@ -149,6 +151,7 @@ super_run() {
 # modifying supervisord conf
 #******
 super_mod() {
+  $_sed -i -e "s/BROKERS=\"<<BROKERS>>\"/BROKERS=\"$BROKERS\"/g" $CTL_SCRIPT
   mkdir -p $MEM_HOME/logs
   echo "$MEM_PATH -u $USR_NAME -p $MC_PORT" | sudo tee -a $WATCHLIST
   

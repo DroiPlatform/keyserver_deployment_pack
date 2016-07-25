@@ -63,7 +63,7 @@ super_mod() {
   #echo_supervisord_conf > $WATCHLIST
 
   mkdir -p $IL_HOME/logs
-  echo "$IL_PATH -cache $CH_PATH -list $SL_PATH -logfile $EL_PATH -brokers $BROKERS -backend $BACKEND" | sudo tee -a $WATCHLIST
+  echo "$IL_PATH -cache $CH_PATH -list $SL_PATH -logfile $EL_PATH -brokers $BROKERS -backend http://$BACKEND/v1/appid" | sudo tee -a $WATCHLIST
 }
 
 update_ctl () {

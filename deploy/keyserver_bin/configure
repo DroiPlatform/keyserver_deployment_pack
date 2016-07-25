@@ -171,6 +171,9 @@ config_gen(){
   mkdir -p $KS_HOME/conf
   mkdir -p $DATA_ROOT/data/maldb/id
   mkdir -p $DATA_ROOT/data/maldb/dup
+  mkdir -p $DATA_ROOT/data/idmap
+  mkdir -p $DATA_ROOT/data/keydb/aes
+  mkdir -p $DATA_ROOT/data/keydb/rsa
   mkdir -p $LOG_HOME
   mkdir -p $KS_HOME/logs
   #INTERNAL_IP=$($FINDER_BIN -internal|$_awk '{print $2;}')

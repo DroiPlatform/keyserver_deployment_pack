@@ -55,9 +55,9 @@ il_start(){
   echo "Stage 2/2: Begin server starting..."
   KS_CORES=1
 
+  pid
   if [ -e $PATH_PID ]
   then
-    pid
     PID=$(cat $PATH_PID)
     if [[ -z "$PID" ]]; then
       rm $PATH_PID

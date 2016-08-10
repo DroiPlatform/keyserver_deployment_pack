@@ -55,7 +55,6 @@ echo_usage () {
   echo "Usage: "
   echo "$0 keyserver <path to watchlist> <keygen seed> <random ID mapping: true|false> <path to accelerator directory (which contains conf/ and sbin/)>"
   echo "$0 dn_updater <host ip> <broker list seperated by comma> <etcd ip:port>"
-  echo "$0 ip_list <path to watchlist> <broker list> <zone code backend (ip:port)>"
 }
 
 case $1 in
@@ -64,23 +63,6 @@ case $1 in
       echo "Illegal number of parameters, expected 5, got $#"
     fi
     deploy_ks
-    ;;
-#  "ud")
-#    deploy_ud
-#    ;;
-#  "kill_keyserver")
-#    kill_ks
-#    ;;
-  "ip_list")
-    if [ "$#" -ne 4 ]; then
-      echo "Illegal number of parameters, expected 4, got $#"
-      echo_usage
-    else
-      SUPER_CONF=$2
-      BROKERS=$3
-      BACKEND=$4
-      deploy_ip
-    fi
     ;;
   "dn_updater")
     if [ "$#" -ne 4 ]; then

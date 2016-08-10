@@ -27,13 +27,12 @@ update_ip_list () {
 
 update_all () {
   update_keyserver
-  update_ip_list
   update_dn_updater
   update_updater
 }
 
 echo_usage () {
-  echo "Usage: $0 <target dir> < all | keyserver | ip_list | dn_updater | updaater >"
+  echo "Usage: $0 <target dir> <all|keyserver|dn_updater|updaater>"
 }
 
 case $2 in
@@ -44,10 +43,6 @@ case $2 in
   "keyserver")
     TGT=$1
     update_keyserver
-    ;;
-  "ip_list")
-    TGT=$1
-    update_ip_list
     ;;
   "dn_updater")
     TGT=$1

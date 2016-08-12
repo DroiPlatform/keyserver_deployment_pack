@@ -11,8 +11,8 @@ updater_gen() {
 
 case $1 in
   "updater")
-    if [ "$#" -ne 4 ]; then
-      echo "Illegal number of parameters, expected 4, got $#"
+    if [ "$#" -ne 5 ]; then
+      echo "Illegal number of parameters, expected 5, got $#"
     fi
     HOST=$2
     BROKERS=$3
@@ -20,7 +20,7 @@ case $1 in
     updater_gen
     ;;
   *)
-    echo "Usage: $0 updater <host ip> <broker list seperated by comma> <etcd ip:port>"
+    echo "Usage: $0 updater <host ip> <broker list seperated by comma> <etcd ip:port> <iface>"
     ;;
 esac
 

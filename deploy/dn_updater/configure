@@ -6,7 +6,7 @@ updater_gen() {
   touch $UPDATER
   chmod +x $UPDATER
   echo "kill -9 \$(ps aux|grep dn_updater/dn_updater|grep -v vim|grep -v java|grep -v grep|awk '{print \$2}')" > $UPDATER
-  echo "$DN_HOME/dn_updater -host $HOST -brokers $BROKERS -etcd $ETCD -domain tyd.svc.cluster.local &" >> $UPDATER
+  echo "$DN_HOME/dn_updater -host $HOST -brokers $BROKERS -etcd $ETCD -redirect $REDIRECT &" >> $UPDATER
 }
 
 case $1 in
@@ -17,10 +17,11 @@ case $1 in
     HOST=$2
     BROKERS=$3
     ETCD=$4
+    REDIRECT=$5
     updater_gen
     ;;
   *)
-    echo "Usage: $0 updater <host ip> <broker list seperated by comma> <etcd ip:port> <iface>"
+    echo "Usage: $0 updater <host ip> <broker list seperated by comma> <etcd ip:port> <redirect IP>"
     ;;
 esac
 

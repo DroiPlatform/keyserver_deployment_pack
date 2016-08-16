@@ -48,13 +48,13 @@ deploy_app() {
 
 deploy_dn_updater() {
   cd $DN_HOME
-  ./configure updater $HOST $BROKERS $ETCD $IFACE
+  ./configure updater $HOST $BROKERS $ETCD $REDIRECT
 }
 
 echo_usage () {
   echo "Usage: "
   echo "$0 keyserver <path to watchlist> <keygen seed> <random ID mapping: true|false> <path to accelerator directory (which contains conf/ and sbin/)>"
-  echo "$0 dn_updater <host ip> <broker list seperated by comma> <etcd ip:port> <iface (iface to serve name service)>"
+  echo "$0 dn_updater <host ip> <broker list seperated by comma> <etcd ip:port> <redirect IP>"
 }
 
 case $1 in
@@ -72,7 +72,7 @@ case $1 in
       HOST=$2
       BROKERS=$3
       ETCD=$4
-      IFACE=$5
+      REDIRECT=$5
       deploy_dn_updater 
     fi
     ;;

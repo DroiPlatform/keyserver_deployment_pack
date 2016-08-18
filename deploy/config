@@ -1,54 +1,17 @@
 #!/bin/bash
 DP_HOME=`pwd`
 KS_HOME=$DP_HOME/keyserver_bin
-IL_HOME=$DP_HOME/ip_list_bin
-AI_HOME=$DP_HOME/appid_bin
-POD_HOME=$DP_HOME/pod_finder
 DN_HOME=$DP_HOME/dn_updater
-SEED=$3
-SUPER_CONF=$2
-#MGO_ADDR=10.128.81.186:7379
-MGO_ADDR=$3
-RAN_ID=$4
-ACC_HOME=$5
-BROCKERS=$6
-
-MISC_HOME=$DP_HOME/misc
-UD_BIN=$3
-
 
 deploy_ks() {
   cd $KS_HOME
   ./configure init $SEED $RAN_ID
-  ./configure conf $SUPER_CONF $ACC_HOME $BROKERS
-}
-
-kill_ks() {
-  cd $MISC_HOME
-  sleep 30
-  ./kill_ks keyserver $KS_HOME/bin/keyserver
-}
-
-deploy_ud() {
-  cd $MISC_HOME
-  ./ud ud $UD_BIN $SUPER_CONF
-  cd $POD_HOME
-  ./configure $SUPER_CONF
-}
-
-deploy_ip() {
-  cd $IL_HOME
-  ./configure $SUPER_CONF $BROKERS $BACKEND
-}
-
-deploy_app() {
-  cd $AI_HOME
-  ./configure $SUPER_CONF $MGO_ADDR
+  ./configure conf $WATCHLIST $ACC_HOME $BROKERS
 }
 
 deploy_dn_updater() {
   cd $DN_HOME
-  ./configure updater $HOST $BROKERS $ETCD $REDIRECT
+  ./configure updater $WATCHLIST $HOST $BROKERS $ETCD $REDIRECT
 }
 
 echo_usage () {
@@ -61,18 +24,24 @@ case $1 in
   "keyserver")
     if [ "$#" -ne 5 ]; then
       echo "Illegal number of parameters, expected 5, got $#"
+    else
+      SEED=$3
+      RAN_ID=$4
+      WATCHLIST=$2
+      ACC_HOME=$5
     fi
     deploy_ks
     ;;
   "dn_updater")
-    if [ "$#" -ne 5 ]; then
-      echo "Illegal number of parameters, expected 5, got $#"
+    if [ "$#" -ne 6 ]; then
+      echo "Illegal number of parameters, expected 6, got $#"
       echo_usage
     else
-      HOST=$2
-      BROKERS=$3
-      ETCD=$4
-      REDIRECT=$5
+      WATCHLIST=$2
+      HOST=$3
+      BROKERS=$4
+      ETCD=$5
+      REDIRECT=$6
       deploy_dn_updater 
     fi
     ;;

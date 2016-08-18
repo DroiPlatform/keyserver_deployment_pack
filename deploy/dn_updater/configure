@@ -9,16 +9,22 @@ updater_gen() {
   echo "$DN_HOME/dn_updater -host $HOST -brokers $BROKERS -etcd $ETCD -redirect $REDIRECT &" >> $UPDATER
 }
 
+watchlist_gen() {
+  echo "$DN_HOME/dn_updater -host $HOST -brokers $BROKERS -etcd $ETCD -redirect $REDIRECT" | sudo tee -a $WATCHLIST
+}
+
 case $1 in
   "updater")
-    if [ "$#" -ne 5 ]; then
-      echo "Illegal number of parameters, expected 5, got $#"
+    if [ "$#" -ne 6 ]; then
+      echo "Illegal number of parameters, expected 6, got $#"
     fi
-    HOST=$2
-    BROKERS=$3
-    ETCD=$4
-    REDIRECT=$5
+    WATCHLIST=$2
+    HOST=$3
+    BROKERS=$4
+    ETCD=$5
+    REDIRECT=$6
     updater_gen
+    watchlist_gen
     ;;
   *)
     echo "Usage: $0 updater <host ip> <broker list seperated by comma> <etcd ip:port> <redirect IP>"

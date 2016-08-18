@@ -161,7 +161,7 @@ super_mod() {
   echo "$KS_BIN -conf $PATH_CONF -id_exp $ID_EXP -aes_exp $AES_EXP -brokers $BROKERS -ratio $RATIO -report $REPORT -log $LOG_HOME/keyserver.log" | sudo tee -a $WATCHLIST
 
   UPDATE_PORT=$(( $AGENT_PORT + 1))
-  echo "$UPDATER -port=$UPDATE_PORT -ks_version=$KS_VERSION -nginx=$UPDATER_NGX -target=$UPDATER_TARGET -host=$INTERNAL_IP -brokers=$BROKERS -log $LOG_HOME/updater.log" | sudo tee -a $WATCHLIST
+  echo "$UPDATER -port $UPDATE_PORT -ks_version $KS_VERSION -nginx $UPDATER_NGX -target $UPDATER_TARGET -host $INTERNAL_IP -brokers $BROKERS -log $LOG_HOME/updater.log" | sudo tee -a $WATCHLIST
 
 }
 

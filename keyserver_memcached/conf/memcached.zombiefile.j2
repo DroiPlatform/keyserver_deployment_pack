@@ -1,8 +1,8 @@
 {
     "tag": "memcached",
-    "match": "{{droi_directory}}/keyserver/current/memcached", 
+    "match": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/memcached", 
     #"regex": "",
-    "exec": "{{droi_directory}}/keyserver/current/memcached -u {{keyserver_memcahced.run_user}} -p {{keyserver_memcahced.memcached_port}}", #執行程式(list或str)
+    "exec": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/memcached -u {{keyserver_memcahced[simple_phase].run_user}} -p {{keyserver_memcahced[simple_phase].memcached_port}}", 
     #'alert': ' Restart',
     #"numa": True,
 }

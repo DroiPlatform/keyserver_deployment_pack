@@ -1,4 +1,13 @@
 keyserver_memcahced:
-  run_user: "droi"
-  memcached_port: 22122
-  mcmal_port: 22123
+  alpha:
+    run_user: "droi"
+    memcached_port: 22122
+    mcmal_port: 22123
+  beta:
+    run_user: "tpadmin"
+    memcached_port: 22122
+    mcmal_port: 22123
+  prod:
+    run_user: "droi"
+    memcached_port: 22122
+    mcmal_port: 22123

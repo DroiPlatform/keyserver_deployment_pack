@@ -2,7 +2,7 @@
     "tag": "keyserver",
     "match": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/keyserver_bin",
     #"regex": "",
-    "exec": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/keyserver_bin -conf {{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current_conf/key.conf -id_exp {{keyserver[simple].id_exp}} -aes_exp {{keyserver[simple].id_exp}} -brokers {{ACCELERATOR_COMMON_CONFIG['kfk_broker'][simple_phase]}} -ratio {{keyserver[simple].id_exp}} -report {{keyserver[simple].id_exp}} -log {{ACCELERATOR_COMMON_CONFIG.droi_log_directory}}/keyserver_{{version}}.log", 
+    "exec": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/keyserver_bin -conf {{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current_conf/key.conf -id_exp {{keyserver[simple_phase].id_exp}} -aes_exp {{keyserver[simple_phase].id_exp}} -brokers {{ACCELERATOR_COMMON_CONFIG['kfk_broker'][simple_phase]}} -ratio {{keyserver[simple_phase].id_exp}} -report {{keyserver[simple_phase].id_exp}} -log {{ACCELERATOR_COMMON_CONFIG.droi_log_directory}}/keyserver_{{version}}.log", 
     'alert': 'Keyserver Fail Restart',
     #"numa": True,
 }

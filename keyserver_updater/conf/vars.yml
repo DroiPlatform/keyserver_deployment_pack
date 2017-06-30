@@ -1,0 +1,10 @@
+updater:
+  alpha:
+    port: 30974
+    ks_version: 7
+  beta:
+    port: 30974
+    ks_version: 1
+  prod:
+    port: 30974
+    ks_version: 117

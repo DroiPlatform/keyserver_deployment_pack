@@ -1,9 +1,9 @@
 {
   "submodule": {
     "dn_updater": "v0.0.24", 
-    "keyserver_updater": "v0.0.14", 
+    "keyserver_updater": "v0.0.15", 
     "keyserver": "v0.3.27", 
     "keyserver_memcached": "v1.0.3"
   }, 
-  "version": "v0.0.7"
+  "version": "v0.0.8"
 }

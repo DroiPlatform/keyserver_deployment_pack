@@ -1,0 +1,4 @@
+keyserver_memcahced:
+  run_user: "droi"
+  memcached_port: 22122
+  mcmal_port: 22123

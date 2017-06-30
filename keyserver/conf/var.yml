@@ -1,0 +1,44 @@
+keyserver:
+  ran_id: 'true'
+  seed: 603
+  partition: 32
+  alpha:
+    id_exp: 10
+    aes_exp: 72 
+    ratio: 70
+    report: 6
+    kl_version: 19
+    keyserver_ssd_path: "/ramfs"
+    db_size: 65536
+    test_flag: 'false'
+    ks_version: 7
+    maxgo: 
+      nevada: 16
+      bighey: 64
+      test: 8
+  beta:
+    id_exp: 10
+    aes_exp: 72 
+    ratio: 70
+    report: 6
+    kl_version: 19
+    keyserver_ssd_path: "/ramfs"
+    db_size: 65536
+    test_flag: 'false'
+    ks_version: 1
+    maxgo: 
+      sit213: 8
+  prod:
+    id_exp: 10
+    aes_exp: 72 
+    ratio: 70
+    report: 6
+    kl_version: 19
+    keyserver_ssd_path: "/droi/keyserver/ssd"
+    db_size: 4294967296
+    test_flag: 'false'
+    ks_version: 117
+    maxgo: 
+      accelerator-1: 160
+      accelerator-2: 160
+      accelerator-3: 8

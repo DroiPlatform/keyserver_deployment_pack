@@ -15,7 +15,7 @@ keyserver:
     maxgo: 
       nevada: 16
       bighey: 64
-      test: 8
+      supermicro: 64
   beta:
     id_exp: 10
     aes_exp: 72 
@@ -27,7 +27,7 @@ keyserver:
     test_flag: 'false'
     ks_version: 1
     maxgo: 
-      sit213: 8
+      sit508: 8
   prod:
     id_exp: 10
     aes_exp: 72 

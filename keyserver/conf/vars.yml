@@ -7,11 +7,17 @@ keyserver:
     aes_exp: 72 
     ratio: 70
     report: 6
-    kl_version: 19
+    kl_version: 20
     keyserver_ssd_path: "/ramfs"
-    db_size: 65536
+    db_size: 
+      nevada: 65536
+      bighey: 536870912
+      supermicro: 536870912
     test_flag: 'false'
     ks_version: 7
+      nevada: 7
+      bighey: 37
+      supermicro: 37
     maxgo: 
       nevada: 16
       bighey: 64

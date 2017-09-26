@@ -1,7 +1,10 @@
 updater:
   alpha:
     port: 30974
-    ks_version: 7
+    ks_version:
+      nevada: 7
+      bighey: 37
+      supermicro: 37
   beta:
     port: 30974
     ks_version: 1

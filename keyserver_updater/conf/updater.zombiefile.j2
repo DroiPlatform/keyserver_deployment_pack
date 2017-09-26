@@ -2,7 +2,7 @@
     "tag": "updater",
     "match": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/updater",
     #"regex": "",
-    "exec": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/updater -port={{updater[simple_phase].port}} -ks_version={{updater[simple_phase].ks_version}} -prefix={{ACCELERATOR_COMMON_CONFIG.droi_directory}}/inlake-accelerator/current -target={{ACCELERATOR_COMMON_CONFIG.droi_directory}}/inlake-accelerator/current_conf/nginx.conf -host={{internal_ip}} -brokers={{ACCELERATOR_COMMON_CONFIG['kfk_broker'][simple_phase]}} -log {{ACCELERATOR_COMMON_CONFIG.droi_log_directory}}/keyserver_{{version}}.log", 
+    "exec": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/updater -port={{updater[simple_phase].port}} -ks_version={{updater[simple_phase]['ks_version'][nickname]}} -prefix={{ACCELERATOR_COMMON_CONFIG.droi_directory}}/inlake-accelerator/current -target={{ACCELERATOR_COMMON_CONFIG.droi_directory}}/inlake-accelerator/current_conf/nginx.conf -host={{internal_ip}} -brokers={{ACCELERATOR_COMMON_CONFIG['kfk_broker'][simple_phase]}} -log {{ACCELERATOR_COMMON_CONFIG.droi_log_directory}}/keyserver_{{version}}.log", 
     #'alert': ' Restart',
     #"numa": True,
 }

@@ -22,6 +22,7 @@ keyserver:
       nevada: 16
       bighey: 64
       supermicro: 64
+    prometheus_port: 8080 
   beta:
     id_exp: 10
     aes_exp: 72 
@@ -48,3 +49,4 @@ keyserver:
       accelerator-1: 160
       accelerator-2: 160
       accelerator-3: 8
+    prometheus_port: 33897

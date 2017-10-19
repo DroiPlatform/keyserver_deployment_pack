@@ -48,6 +48,9 @@ keyserver:
       accelerator-3: 4294967296
     test_flag: 'false'
     ks_version: 117
+      accelerator-1: 117
+      accelerator-2: 117
+      accelerator-3: 39
     maxgo: 
       accelerator-1: 160
       accelerator-2: 160

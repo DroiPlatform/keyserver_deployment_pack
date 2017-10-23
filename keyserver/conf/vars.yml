@@ -40,16 +40,16 @@ keyserver:
     aes_exp: 72 
     ratio: 70
     report: 6
-    kl_version: 19
+    kl_version: 20
     keyserver_ssd_path: "/droi/keyserver/ssd"
     db_size: 
       accelerator-1: 4294967296
       accelerator-2: 4294967296
       accelerator-3: 4294967296
     test_flag: 'false'
-    ks_version: 117
-      accelerator-1: 117
-      accelerator-2: 117
+    ks_version:
+      accelerator-1: 109
+      accelerator-2: 109
       accelerator-3: 39
     maxgo: 
       accelerator-1: 160

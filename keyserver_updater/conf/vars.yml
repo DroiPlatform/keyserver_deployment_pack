@@ -10,4 +10,7 @@ updater:
     ks_version: 1
   prod:
     port: 30974
-    ks_version: 117
+    ks_version: 
+      accelerator-1: 109
+      accelerator-2: 109
+      accelerator-3: 39

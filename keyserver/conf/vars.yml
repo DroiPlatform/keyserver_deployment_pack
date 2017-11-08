@@ -23,6 +23,7 @@ keyserver:
       bighey: 64
       supermicro: 64
     prometheus_port: 8080 
+    flush_period: 60
   beta:
     id_exp: 10
     aes_exp: 72 
@@ -56,3 +57,4 @@ keyserver:
       accelerator-2: 160
       accelerator-3: 8
     prometheus_port: 33897
+    flush_period: 60

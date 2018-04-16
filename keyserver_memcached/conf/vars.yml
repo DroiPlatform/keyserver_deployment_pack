@@ -3,11 +3,17 @@ keyserver_memcahced:
     run_user: "droi"
     memcached_port: 22122
     mcmal_port: 22123
+    memcached_mem: 64
+    mcmal_mem: 64
   beta:
     run_user: "tpadmin"
     memcached_port: 22122
     mcmal_port: 22123
+    memcached_mem: 64
+    mcmal_mem: 64
   prod:
     run_user: "droi"
     memcached_port: 22122
     mcmal_port: 22123
+    memcached_mem: 128
+    mcmal_mem: 1024

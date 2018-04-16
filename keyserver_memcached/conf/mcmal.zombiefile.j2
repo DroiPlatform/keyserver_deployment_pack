@@ -2,7 +2,7 @@
     "tag": "mcmal",
     "match": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/mcmal",
     #"regex": "",
-    "exec": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/mcmal -u {{keyserver_memcahced[simple_phase].run_user}} -p {{keyserver_memcahced[simple_phase].mcmal_port}}", 
+    "exec": "{{ACCELERATOR_COMMON_CONFIG.droi_directory}}/keyserver/current/mcmal -u {{keyserver_memcahced[simple_phase].run_user}} -p {{keyserver_memcahced[simple_phase].mcmal_port}} -m {{keyserver_memcahced[simple_phase].mcmal_mem}}", 
     #'alert': ' Restart',
     #"numa": True,
 }

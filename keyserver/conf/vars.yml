@@ -20,7 +20,6 @@ keyserver:
       bighey: 37
       supermicro: 37
       alpha-acc3: 37
-    test_flag: 'false'
     maxgo: 
       nevada: 16
       bighey: 64
